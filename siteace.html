@@ -1,0 +1,156 @@
+<head>
+  <title>siteace</title>
+</head>
+
+<body>
+
+</body>
+
+<template name="DetailLayout">	
+  {{> yield "navbar"}}
+  {{> yield "main"}}
+  {{> yield "list"}}
+</template>
+
+<template name="navbar">
+  <!-- navbar  - you will be putting the login functions here -->
+  <nav class="navbar navbar-default">  
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="./">
+	        Site Ace
+        </a>                       
+        </div>
+       <form class="navbar-form navbar-left js-search-navbar" role="search" action="./search">
+         <div id="navbar" class="form-group">
+           <label for="search_str"></label>
+           <input id="searchbox" type="text" class="form-control" placeholder="Search Site">
+          </div>
+          <button id="searchButton" type="submit" class="btn btn-default ">Submit</button>
+        </form>
+         <ul class="nav navbar-nav navbar-right">
+          {{> loginButtons}} <!--Functionality based on accounts:ui-->
+		</ul>
+    </div> 
+  </nav>
+</template>
+
+<template name="website_form">
+  <div class="container">   
+	<a class="btn btn-default js-toggle-website-form" href="#">
+  		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+	</a>
+	<div id="website_form" class="hidden_div">
+		<form class="js-save-website-form">
+		  <div class="form-group">
+		    <label for="url">Site address</label>
+		    <input type="text" class="form-control" id="url" placeholder="http://www.mysite.com">
+		  </div>
+		  <div class="form-group">
+		    <label for="title">Title</label>		  
+            <input type="text" class="form-control" id="title" placeholder="Mysite">
+		  </div>
+		    <div class="form-group">
+		    <label for="description">Description</label>
+		    <input type="text" class="form-control" id="description" placeholder="I found this site really useful for ...">
+		    </div>
+		  <button type="submit" class="btn btn-default">Submit</button>
+		</form>
+	</div>
+  </div>
+</template>
+
+<template name="post_form">
+  <div class="container">     
+		<form class="js-save-post-form">
+		  <div class="form-group">
+		    <label for="description">Post Comments</label>
+		    <input type="text" class="form-control" id="description" placeholder="User comments about this site">
+          </div>
+		  <button type="submit" class="btn btn-default">Submit</button>
+		</form>
+	</div>
+</template>
+
+
+<!-- template that displays several website items -->
+<template name="website_list">
+  <div class="container">   
+	<ol>
+  	{{#each websites}}
+	{{>website_item}}
+	{{/each}}
+	</ol>
+  </div>
+</template>
+
+<!-- template that displays the searched website listing -->
+<template name="website_search_list">
+  <div class="container">   
+	<ol>
+  	{{#each websites_searched}}
+	{{>website_item}}
+	{{/each}}
+	</ol>
+  </div>
+</template>
+
+<!-- template that displays individual website entries -->
+<template name="website_item">
+  <div class="container">  
+    <li>
+	  <a href="{{url}}">{{title}}</a>
+      <!--Allow user to click on the description 
+        to navigate to /detials pages -->
+      <p></p>
+    
+	  <a href="./details/{{_id}}">{{description}}</a>
+      <p></p>	
+	  <a href="#" class="btn btn-default js-upvote">
+		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+	  </a>
+	  <a href="#" class="btn btn-default js-downvote">
+		<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+	  </a>
+	  <!-- you will be putting your up and down vote buttons in here! -->
+      <p>Created On: {{createdOn}} </p>
+      <p>
+        <b>Upvotes: {{rating}} </b>Downvotes: {{downRating}}
+      </p>
+    </li>   
+  </div>
+</template>
+
+<template name="comment_list">
+  <div class="container">   
+	<ol>
+  	{{#each websites}}
+	{{>website_single}}
+	{{/each}}
+	</ol>
+  </div>
+</template>
+
+<!-- template that displays individual website entries -->
+<template name="website_single">
+  <div class="container">  
+	  <h2><a href="{{url}}">{{title}}</a></h2>
+      <!--Allow user to click on the description 
+        to navigate to /detaills pages -->
+      <p></p>
+    
+      <h3><a href="../../">{{description}}</a></h3>
+      <p></p>	
+      <p> Created On: {{createdOn}} </p>
+      <p>
+        Upvotes: {{rating}} Downvotes: {{downRating}}
+      </p>
+        <h4> User comments about this site:</h4>
+      <p>
+         {{#each comment in comments}} 
+          <!--<li>Post: {{@index}}</li>-->
+          <div class="alert alert-info" role="alert"> {{comment}} </div>            
+         {{/each}}
+      </p>
+  </div>
+</template>
