@@ -10,26 +10,22 @@ if (Meteor.isClient) {
 
 	// helper function that returns all available websites
 	Template.website_list.helpers({
-		websites:function(){        
+		websites:function(){
+            //Update the search results to reset here
+            var curs = Websites.find({});
+            var count = 0;
+            curs.forEach(function (curs) {                                
+                Websites.update({_id:curs._id},
+                            {$set: {searchable:false}});
+                count += 1;
+            });                                    
 			return Websites.find({},{sort:{rating:-1}});
 		}
 	});
     
     Template.website_search_list.helpers({
-		websites_searched:function(){
-            //Session.get("rec_ids")
-            if (Session.get("rec_ids")) {
-               console.log("rec_ids = " + Session.get("rec_ids")[0].toString());
-            }
-            //if (!Session.get("rec_ids")) {
-            //   return(Websites.find( { _id : Session.get("rec_ids") }));
-            //}
-            record = Session.get("rec_ids")[0]
-            //return {rec_id: Session.get("rec_ids")};
-            //return(Websites.find( { _id : {$in:Session.get("rec_ids")} }));
-            //return Websites.find({},{sort:{rating:-1}});       
-            console.log("type of ret = " +typeof rec_ids);
-            return Websites.find({_id :{$in:record.toString()}});     
+		websites_searched:function(){            
+            return Websites.find({searchable:true});           
 		}
 	});
 	/////
@@ -104,24 +100,44 @@ if (Meteor.isClient) {
         "submit .js-search-navbar":function(event, template) {
             
             var search_str = event.target.searchbox.value;
-            console.log("Search string = " + search_str);
-            var rxd_results = false;
+            
+            var search = new RegExp(search_str, 'i');
+                        
+            console.log("Search string = " + search);
+            
+            var search_results = Websites.find({ $or: [{title : search }, {description: search} ]});
+
+            var count = 0;
+            search_results.forEach(function (curs) {
+                console.log("_id" + count + ": " + curs._id);
+                //if (curs._id) {Session.set("dataid", curs._id);}
+                Websites.update({_id:curs._id},
+                            {$set: {searchable:true}});
+                count += 1;
+            });
+            
+                        
+            /*
             record_ids=[]; //re-init to reset from the global holding.
             for (var i = 0; i < Websites.find().count();  i++) {
-               var search_val =   Websites.find().collection.queries[1].results[i].title.search(search_str);
+                var search_val =   Websites.find().collection.queries[1].results[i].title.search(search_str);  
                
                if (search_val !== -1) { 
                    console.log("Hit with: " + search_val + " query = " + i);
-                   //Session.set("rec_ids",Websites.find().collection.queries[1].results[i]._id);
-                   record_ids.push(Websites.find().collection.queries[1].results[i]._id);
-                   rxd_results = true;                   
-                   //Session.set("rec_ids","wtQgwGQ7Lytrz8Q2m");                   //record_ids.push(Websites.find().collection.queries[1].results[i]._id);
-                }                                             
+                    record_ids.push(Websites.find().collection.queries[1].results[i]._id);
+                        
+                   search_id = Websites.find().collection.queries[1].results[i]._id ;
+                   Websites.update( { _id : search_id },
+                                      {$set : {searchable:true } } );
+
+                }  
+                else {
+
+                }
             }
-            Session.set("rec_ids",record_ids);
-            //Session.set("rec_ids",rxd_results);
             console.log(record_ids);            
             console.log(Websites.find( { _id : {$in:record_ids} }));
+            */
         }    
         
     })
