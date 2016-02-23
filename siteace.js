@@ -111,13 +111,15 @@ if (Meteor.isClient) {
 
             var count = 0;
             search_results.forEach(function (curs) {
-                console.log("_id" + count + ": " + curs._id);
+                console.log("_id" + count + ": " +" " + curs.title + " "+ curs._id + " " + curs.description);
                 //if (curs._id) {Session.set("dataid", curs._id);}
                 //Websites.update({_id:curs._id},
                 //            {$set: {searchable:true}});
                 Websites_Search.upsert({_id:curs._id},
-                                        {title: curs.title},
-                                        {description: curs.description});
+                                       { $set : {
+                                           title: curs.title,
+                                           description: curs.description} 
+                                       });
                 count += 1;
             });     
 
@@ -227,7 +229,7 @@ if (Meteor.isClient) {
         this.render('website_search_list', {
             to:"main", 
             data:function(){
-                return Websites.find( { _id : {$in:record_ids} });
+                return Websites_Search.find( {});
             }
         });
     });

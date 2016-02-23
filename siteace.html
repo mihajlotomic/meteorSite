@@ -89,7 +89,7 @@
   <div class="container">   
 	<ol>
   	{{#each websites_searched}}
-	{{>website_item}}
+	{{>search_results}}
 	{{/each}}
 	</ol>
   </div>
@@ -128,6 +128,20 @@
 	{{>website_single}}
 	{{/each}}
 	</ol>
+  </div>
+</template>
+
+<!-- template that displays individual website entries -->
+<template name="search_results">
+  <div class="container">  
+      <span class="h1">Search Results</span>
+      <p></p>
+     <ul>
+         <li> 
+           <span class="h3"><a href="#">{{title}}</a></span><p></p>
+           <span class="h4">{{description}}</span>
+         </li>
+     </ul>
   </div>
 </template>
 
