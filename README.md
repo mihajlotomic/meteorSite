@@ -1,6 +1,6 @@
-Trying out the Meteor framework for the first time. 
+##Trying out the Meteor framework for the first time. 
 
-Started as a Coursera Course assignment which then became a sandbox for testing features.
+###Started as a Coursera Course assignment which then became a sandbox for testing features.
 
 Currently the project supports the following features:
 
@@ -12,9 +12,8 @@ Currently the project supports the following features:
 ToDo:
 
 1. Finish the search bar functionality - trying to share the _ids to a helper function is currently the limitation. 
-2. Instead of using alerts use more modern Bootstrap capabilities.
-3. Implement security and server side validation so it can acutally be deployed. 
-
+1. Instead of using alerts use more modern Bootstrap capabilities.
+1. Implement security and server side validation so it can acutally be deployed. 
 
 To Run:
 
