@@ -1,6 +1,7 @@
 Websites = new Mongo.Collection("websites");
 // Records ids from search results - make it global for access across 
 // various templates and functions.
+Websites_Search = new Mongo.Collection("null");  //stored only on client with null
 record_ids =[];
 if (Meteor.isClient) {
 
@@ -18,14 +19,15 @@ if (Meteor.isClient) {
                 Websites.update({_id:curs._id},
                             {$set: {searchable:false}});
                 count += 1;
+                Websites_Search.remove({_id:curs._id});
             });                                    
 			return Websites.find({},{sort:{rating:-1}});
 		}
 	});
     
     Template.website_search_list.helpers({
-		websites_searched:function(){            
-            return Websites.find({searchable:true});           
+		websites_searched:function(){                     
+            return Websites_Search.find({});           
 		}
 	});
 	/////
@@ -111,35 +113,15 @@ if (Meteor.isClient) {
             search_results.forEach(function (curs) {
                 console.log("_id" + count + ": " + curs._id);
                 //if (curs._id) {Session.set("dataid", curs._id);}
-                Websites.update({_id:curs._id},
-                            {$set: {searchable:true}});
+                //Websites.update({_id:curs._id},
+                //            {$set: {searchable:true}});
+                Websites_Search.upsert({_id:curs._id},
+                                        {title: curs.title},
+                                        {description: curs.description});
                 count += 1;
-            });
-            
-                        
-            /*
-            record_ids=[]; //re-init to reset from the global holding.
-            for (var i = 0; i < Websites.find().count();  i++) {
-                var search_val =   Websites.find().collection.queries[1].results[i].title.search(search_str);  
-               
-               if (search_val !== -1) { 
-                   console.log("Hit with: " + search_val + " query = " + i);
-                    record_ids.push(Websites.find().collection.queries[1].results[i]._id);
-                        
-                   search_id = Websites.find().collection.queries[1].results[i]._id ;
-                   Websites.update( { _id : search_id },
-                                      {$set : {searchable:true } } );
+            });     
 
-                }  
-                else {
-
-                }
-            }
-            console.log(record_ids);            
-            console.log(Websites.find( { _id : {$in:record_ids} }));
-            */
         }    
-        
     })
 
 	Template.website_form.events({
