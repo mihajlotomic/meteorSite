@@ -87,6 +87,7 @@
 <!-- template that displays the searched website listing -->
 <template name="website_search_list">
   <div class="container">   
+    <span class="h1">Search Results</span>
 	<ol>
   	{{#each websites_searched}}
 	{{>search_results}}
@@ -133,15 +134,9 @@
 
 <!-- template that displays individual website entries -->
 <template name="search_results">
-  <div class="container">  
-      <span class="h1">Search Results</span>
-      <p></p>
-     <ul>
-         <li> 
-           <span class="h3"><a href="#">{{title}}</a></span><p></p>
-           <span class="h4">{{description}}</span>
-         </li>
-     </ul>
+  <div class="container">                
+    <span class="h3"><a href="#">{{title}}</a></span><p></p>
+      <span class="h4"><a href="./details/{{_id}}">{{description}}</a></span>         
   </div>
 </template>
 

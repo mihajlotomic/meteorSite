@@ -112,9 +112,6 @@ if (Meteor.isClient) {
             var count = 0;
             search_results.forEach(function (curs) {
                 console.log("_id" + count + ": " +" " + curs.title + " "+ curs._id + " " + curs.description);
-                //if (curs._id) {Session.set("dataid", curs._id);}
-                //Websites.update({_id:curs._id},
-                //            {$set: {searchable:true}});
                 Websites_Search.upsert({_id:curs._id},
                                        { $set : {
                                            title: curs.title,

@@ -13,7 +13,7 @@ ToDo:
 
 1. ~~Finish the search bar functionality - trying to share the _ids to a helper function is currently the limitation.~~
 1. Instead of using alerts use more modern Bootstrap capabilities.
-1. Implement security and server side validation so it can acutally be deployed. 
+1. Implement security and server side validation so it can actually be deployed. 
 
 To Run:
 
