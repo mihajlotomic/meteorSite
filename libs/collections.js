@@ -36,10 +36,16 @@ Websites_Search.allow({
 //shared code
 Meteor.methods({
   searchUpsert: function( id, curs ){
-      Websites_Search.upsert({_id:id},
-                             { $set : {
-                                   title: curs.title,
-                                   description: curs.description} 
-                                   });
-  }
+    Websites_Search.upsert({_id:id},
+                           { $set : {
+                                 title: curs.title,
+                                 description: curs.description} 
+                           });
+  },
+  deleteWebsite: function (objId) {
+    Websites_Search.remove(objId);
+  }, 
+  deleteAllWebsite: function () {
+    Websites_Search.remove({});
+  } 
 });

@@ -21,12 +21,8 @@ Meteor.methods({
         // Got a network error, time-out or HTTP error in the 400 or 500 range.
         return false;
       }
-    },
-    deleteWebsite: function (objId) {
-      Websites_Search.remove(objId);
-    } 
- }
-);    
+    }
+});    
 
 
 // start up function that creates entries in the Websites databases.

@@ -10,7 +10,7 @@ Template.website_list.helpers({
         curs.forEach(function (curs) {                                
           //Websites_Search.remove({_id:curs._id});
           console.log("removing here");
-          Meteor.call( 'deleteWebsite', curs._id);
+          Meteor.call( 'deleteWebsites', curs._id);
         });                                    
         return Websites.find({},{sort:{rating:-1}    });
     }
@@ -99,6 +99,7 @@ Template.navbar.events({
         console.log("Search string = " + search);
 
         var search_results = Websites.find({ $or: [{title : search }, {description: search} ]});
+        Meteor.call( 'deleteAllWebsite' );
 
         var count = 0;
         search_results.forEach(function (curs) {
