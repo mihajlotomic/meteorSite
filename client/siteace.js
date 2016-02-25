@@ -8,7 +8,9 @@ Template.website_list.helpers({
         //Update the search results to reset here
         var curs = Websites.find({});
         curs.forEach(function (curs) {                                
-            Websites_Search.remove({_id:curs._id});
+          //Websites_Search.remove({_id:curs._id});
+          console.log("removing here");
+          Meteor.call( 'deleteWebsite', curs._id);
         });                                    
         return Websites.find({},{sort:{rating:-1}    });
     }
