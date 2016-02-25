@@ -7,11 +7,7 @@ Template.website_list.helpers({
     websites:function(){
         //Update the search results to reset here
         var curs = Websites.find({});
-        var count = 0;
         curs.forEach(function (curs) {                                
-            Websites.update({_id:curs._id},
-                        {$set: {searchable:false}});
-            count += 1;
             Websites_Search.remove({_id:curs._id});
         });                                    
         return Websites.find({},{sort:{rating:-1}    });
@@ -105,11 +101,12 @@ Template.navbar.events({
         var count = 0;
         search_results.forEach(function (curs) {
             console.log("_id" + count + ": " +" " + curs.title + " "+ curs._id + " " + curs.description);
-            Websites_Search.upsert({_id:curs._id},
-                                   { $set : {
-                                       title: curs.title,
-                                       description: curs.description} 
-                                   });
+            Meteor.call( 'searchUpsert', curs._id, curs );
+            //Websites_Search.upsert({_id:curs._id},
+            //                       { $set : {
+            //                           title: curs.title,
+            //                           description: curs.description} 
+            //                       });
             count += 1;
         });     
 

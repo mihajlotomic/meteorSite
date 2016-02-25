@@ -16,11 +16,16 @@ Meteor.methods({
         //console.log(result.content  )
         return result;
 
-    } catch (e) {
+     } 
+     catch (e) {
         // Got a network error, time-out or HTTP error in the 400 or 500 range.
         return false;
-    }
-    }}
+      }
+    },
+    deleteWebsite: function (objId) {
+      Websites_Search.remove(objId);
+    } 
+ }
 );    
 
 
