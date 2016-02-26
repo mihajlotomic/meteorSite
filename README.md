@@ -2,6 +2,13 @@
 
 ###Started as a Coursera Course assignment which then became a sandbox for testing features.
 
+This was a project done for Coursera in a certification series named "Responsive Web Design".
+
+The website allows for users to enter websites and up and down vote them.  Selecting the description, 
+takes the user to a page where they can comment on the site.  Search functionality is fully available as well. 
+
+
+
 Currently the project supports the following features:
 
 1. User login and authentication - all be it in an insecure way.
