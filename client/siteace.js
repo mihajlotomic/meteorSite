@@ -10,7 +10,7 @@ Template.website_list.helpers({
         curs.forEach(function (curs) {                                
           //Websites_Search.remove({_id:curs._id});
           console.log("removing here");
-          Meteor.call( 'deleteWebsites', curs._id);
+          Meteor.call( 'deleteWebsite', curs._id);
         });                                    
         return Websites.find({},{sort:{rating:-1}    });
     }
@@ -41,8 +41,7 @@ Template.website_item.events({
 
         console.log("Up voting website with id "+website_id);
         // put the code in here to add a vote to a website!
-        Websites.update({_id:website_id},
-                        {$set: {rating:rating}});
+        Meteor.call("udpateSites",website_id,rating);
         return false;// prevent the button from reloading the page
     }, 
     "click .js-downvote":function(event){
@@ -60,8 +59,7 @@ Template.website_item.events({
             downRating = 1;
         }
         // put the code in here to remove a vote from a website!
-        Websites.update({_id:website_id},
-                        {$set: {downRating:downRating}});
+        Meteor.call("udpateSitesDown",website_id,downRating);
         return false;// prevent the button from reloading the page
     }
 });
@@ -76,9 +74,10 @@ Template.post_form.events({
 
         if (Meteor.user()) {
             console.log("update");
-            Websites.update({_id:website_id},
-                        {$push: { comments: post_data,
-                                  posted_on: new Date() }} );
+            //Websites.update({_id:website_id},
+            //            {$push: { comments: post_data,
+            //                      posted_on: new Date() }} );  
+            Meteor.call("updateSitesPush",website_id,post_data);
         }
 
         post_num += 1;     
@@ -105,11 +104,6 @@ Template.navbar.events({
         search_results.forEach(function (curs) {
             console.log("_id" + count + ": " +" " + curs.title + " "+ curs._id + " " + curs.description);
             Meteor.call( 'searchUpsert', curs._id, curs );
-            //Websites_Search.upsert({_id:curs._id},
-            //                       { $set : {
-            //                           title: curs.title,
-            //                           description: curs.description} 
-            //                       });
             count += 1;
         });     
 
