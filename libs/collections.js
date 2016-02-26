@@ -41,11 +41,24 @@ Meteor.methods({
                                  title: curs.title,
                                  description: curs.description} 
                            });
-  },
+  }, 
   deleteWebsite: function (objId) {
     Websites_Search.remove(objId);
   }, 
   deleteAllWebsite: function () {
     Websites_Search.remove({});
-  } 
+  },
+  udpateSites: function (objId, rating) {
+    Websites.update({_id:objId},
+                    {$set: {rating:rating}});
+  },
+  udpateSitesDown: function (objId, rating) {
+    Websites.update({_id:objId},
+                    {$set: {downRating:rating}});
+  },
+  updateSitesPush: function (objId, data) {
+    Websites.update({_id:objId},
+                    {$push: { comments: data,
+                              posted_on: new Date() }} );
+  }
 });
