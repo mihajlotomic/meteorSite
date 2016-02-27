@@ -1,6 +1,14 @@
 //Server side code
 console.log("http running")
 
+Meteor.publish("websites", function(){
+  return Websites.find({});
+  });  
+
+Meteor.publish("websitesSearched", function(){
+  return Websites_Search.find({});
+  });  
+
 Meteor.methods({
     checkSite: function (siteUrl) {
     //Code taken from stackoverlow http://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-an-url    

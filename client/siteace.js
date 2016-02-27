@@ -1,3 +1,6 @@
+Meteor.subscribe('websites');
+Meteor.subscribe('websitesSearched');
+
 /////
 // template helpers 
 /////
